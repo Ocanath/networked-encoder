@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "adapter-encoder")(type "KiCad")(uri "${KIPRJMOD}/adapter-encoder.pretty")(options "")(descr ""))
+)

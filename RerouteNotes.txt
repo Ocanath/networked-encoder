@@ -1,0 +1,8 @@
+1. Break pads out to the encoder case for programming
+2. instead of terminating fsr wires at current location, split another branch out at 90 degrees and wrap it to the top of the encoder case so the existing 
+	wire guides/channel can be used; it just terminates the wires at a different location
+3. add a branch somewhere for the temperature sensor
+
+4. Do board to board connector for the aenc to the new 12mm motor encoder, like how in phones are done like yeah good
+5. 7pin df52 exits 12mm motor encoder, and does df52 to pico-blade to hand. 7pin has 3.3, gnd, UART, cos, sin, SDA, SCL. SDA and SCL are normally unpopulated
+6. for the fsr foldover, do a picolock that sits on the top of the drive train case as well as a solder version
