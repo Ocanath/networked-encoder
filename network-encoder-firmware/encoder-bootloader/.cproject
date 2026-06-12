@@ -14,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2099532304" name="Debug" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug" prebuildStep="ruby ../../../scripts/run_get_version.rb">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2099532304" name="Debug" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug" prebuildStep="ruby ../dartt_bootloader/scripts/run_get_version.rb">
 					<folderInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2099532304." name="/" resourcePath="">
 						<toolChain id="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.1206470652" name="MCU ARM GCC" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug">
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.898187287" name="MCU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" useByScannerDiscovery="true" value="STM32G031G6Ux" valueType="string"/>
@@ -42,11 +42,11 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.1104690026" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
-									<listOptionValue builtIn="false" value="../../../external/byte-stuffing/HDLC"/>
-									<listOptionValue builtIn="false" value="../../../external/byte-stuffing/C-COBS"/>
-									<listOptionValue builtIn="false" value="../../../external/dartt-protocol/src"/>
-									<listOptionValue builtIn="false" value="../../../external/stm32-dma-cobs-uart/dma-uart-src"/>
-									<listOptionValue builtIn="false" value="../../../shared"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/byte-stuffing/HDLC"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/byte-stuffing/C-COBS"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/dartt-protocol/src"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/stm32-dma-cobs-uart/dma-uart-src"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/shared"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32G0xx_HAL_Driver/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32G0xx/Include"/>
@@ -97,7 +97,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1815202693" name="Release" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release" prebuildStep="ruby ../../../scripts/run_get_version.rb">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1815202693" name="Release" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release" prebuildStep="ruby ../dartt_bootloader/scripts/run_get_version.rb">
 					<folderInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1815202693." name="/" resourcePath="">
 						<toolChain id="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.release.1494142409" name="MCU ARM GCC" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.release">
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.1322660477" name="MCU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" useByScannerDiscovery="true" value="STM32G031G6Ux" valueType="string"/>
@@ -123,11 +123,11 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.1740006724" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
-									<listOptionValue builtIn="false" value="../../../external/byte-stuffing/HDLC"/>
-									<listOptionValue builtIn="false" value="../../../external/byte-stuffing/C-COBS"/>
-									<listOptionValue builtIn="false" value="../../../external/dartt-protocol/src"/>
-									<listOptionValue builtIn="false" value="../../../external/stm32-dma-cobs-uart/dma-uart-src"/>
-									<listOptionValue builtIn="false" value="../../../shared"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/byte-stuffing/HDLC"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/byte-stuffing/C-COBS"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/dartt-protocol/src"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/external/stm32-dma-cobs-uart/dma-uart-src"/>
+									<listOptionValue builtIn="false" value="../dartt_bootloader/shared"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32G0xx_HAL_Driver/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy"/>
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32G0xx/Include"/>
