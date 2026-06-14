@@ -28,6 +28,7 @@ public:
 	int read_time_data(void);
 	int write_fds(void);		//write full flash data store (calibration + address + baud + offset)
 	int write_offset(void);		//write only the zero offset field
+	int write_action_flag(uint32_t action);
 
 private:
 	dartt_mem_t angle_slice;
@@ -35,6 +36,7 @@ private:
 	dartt_mem_t ms_slice;
 	dartt_mem_t fds_slice;
 	dartt_mem_t offset_slice;
+	dartt_mem_t action_slice;
 };
 
 #endif

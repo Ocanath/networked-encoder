@@ -56,6 +56,10 @@ Encoder::Encoder(unsigned char addr, Serial * ser)
 		.buf = (unsigned char *)(&dp_ctl.fds.offset),
 		.size = sizeof(dp_ctl.fds.offset),
 	};
+	action_slice = {
+		.buf = (unsigned char * )(&dp_ctl.action_flag),
+		.size = sizeof(dp_ctl.action_flag)
+	};
 }
 
 Encoder::~Encoder()
@@ -73,6 +77,12 @@ int Encoder::read_angle(void)
 	}
 	theta = ((float)dp_periph.angle) / ((float)(1 << 14));
 	return rc;
+}
+
+int Encoder::write_action_flag(uint32_t action)
+{
+	dp_ctl.action_flag = action;
+	return dartt_write_multi(&action_slice, &ds);
 }
 
 int Encoder::read_adc_raw(void)
