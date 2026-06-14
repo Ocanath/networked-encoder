@@ -6,30 +6,29 @@
 static void print_help(const char * prog)
 {
     printf(
-        "Usage: %s --addr <n> [--port <port>] [--baud <rate>] <command> [arg]\n"
+        "Usage: %s <addr> [--port <port>] [--baud <rate>] <command> [arg]\n"
         "\n"
-        "Required:\n"
-        "  --addr <n>          DARTT device address (0-255)\n"
+        "  addr                DARTT device address (0-255)\n"
         "\n"
         "Comms options:\n"
         "  --port <port>       Serial port (e.g. /dev/ttyUSB0, COM3); autoconnects if omitted\n"
         "  --baud <rate>       Baud rate (default 921600)\n"
         "\n"
         "Encoder commands:\n"
-        "  read-angle          Print angle in radians\n"
-        "  read-adc            Print raw sin/cos ADC values\n"
-        "  read-fds            Print flash data store contents\n"
-        "  set-zero            Set current position as zero\n"
-        "  calibrate           Interactive sin/cos min/max calibration\n"
-        "  save-fds            Commit current FDS to device flash\n"
-        "  restart             Restart encoder firmware\n"
-        "  bootload            Enter bootloader mode\n"
-        "  set-address <n>     Change DARTT address (encoder + bootloader)\n"
+        "  --read-angle        Print angle in radians\n"
+        "  --read-adc          Print raw sin/cos ADC values\n"
+        "  --read-fds          Print flash data store contents\n"
+        "  --set-zero          Set current position as zero\n"
+        "  --calibrate         Interactive sin/cos min/max calibration\n"
+        "  --save-fds          Commit current FDS to device flash\n"
+        "  --restart           Restart encoder firmware\n"
+        "  --bootload          Enter bootloader mode\n"
+        "  --set-address <n>   Change DARTT address (encoder + bootloader)\n"
         "\n"
         "Bootloader commands:\n"
-        "  flash <file>        Flash firmware binary via bootloader\n"
-        "  bl-version          Print bootloader firmware version\n"
-        "  bl-start            Start application from bootloader\n"
+        "  --flash <file>      Flash firmware binary via bootloader\n"
+        "  --bl-version        Print bootloader firmware version\n"
+        "  --bl-start          Start application from bootloader\n"
         "\n"
         "  -h, --help          Print this help and exit\n",
         prog
@@ -62,11 +61,8 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
         exit(1);
     }
 
-    args.port        = nullptr;
-    args.addr        = 0;
-    args.baud        = 921600;
-    args.command     = nullptr;
-    args.command_arg = nullptr;
+    memset(&args, 0, sizeof(args));
+    args.baud = 921600;
 
     bool has_addr = false;
 
@@ -82,10 +78,47 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
             if (i + 1 >= argc) die("'--port' requires a port argument");
             args.port = argv[++i];
         }
-        else if (strcmp(argv[i], "--addr") == 0)
+        else if (strcmp(argv[i], "--baud") == 0)
         {
-            if (i + 1 >= argc) die("'--addr' requires an address argument");
-            unsigned long v = parse_ulong(argv[++i], "--addr");
+            if (i + 1 >= argc) die("'--baud' requires a value argument");
+            args.baud = parse_ulong(argv[++i], "--baud");
+        }
+        else if (strcmp(argv[i], "--read-angle") == 0)  { args.read_angle = true; }
+        else if (strcmp(argv[i], "--read-adc")   == 0)  { args.read_adc   = true; }
+        else if (strcmp(argv[i], "--read-fds")   == 0)  { args.read_fds   = true; }
+        else if (strcmp(argv[i], "--set-zero")   == 0)  { args.set_zero   = true; }
+        else if (strcmp(argv[i], "--calibrate")  == 0)  { args.calibrate  = true; }
+        else if (strcmp(argv[i], "--save-fds")   == 0)  { args.save_fds   = true; }
+        else if (strcmp(argv[i], "--restart")    == 0)  { args.restart    = true; }
+        else if (strcmp(argv[i], "--bootload")   == 0)  { args.bootload   = true; }
+        else if (strcmp(argv[i], "--bl-version") == 0)  { args.bl_version = true; }
+        else if (strcmp(argv[i], "--bl-start")   == 0)  { args.bl_start   = true; }
+        else if (strcmp(argv[i], "--set-address") == 0)
+        {
+            if (i + 1 >= argc) die("'--set-address' requires an address argument");
+            unsigned long v = parse_ulong(argv[++i], "--set-address");
+            if (v > 255)
+            {
+                fprintf(stderr, "error: address '%s' out of range (0-255)\n", argv[i]);
+                exit(1);
+            }
+            args.new_address = (unsigned char)v;
+            args.set_address = true;
+        }
+        else if (strcmp(argv[i], "--flash") == 0)
+        {
+            if (i + 1 >= argc) die("'--flash' requires a filename argument");
+            args.filename = argv[++i];
+            args.flash = true;
+        }
+        else if (argv[i][0] == '-')
+        {
+            fprintf(stderr, "error: unknown option '%s'\n", argv[i]);
+            exit(1);
+        }
+        else if (!has_addr)
+        {
+            unsigned long v = parse_ulong(argv[i], "addr");
             if (v > 255)
             {
                 fprintf(stderr, "error: address '%s' out of range (0-255)\n", argv[i]);
@@ -94,24 +127,6 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
             args.addr = (unsigned char)v;
             has_addr = true;
         }
-        else if (strcmp(argv[i], "--baud") == 0)
-        {
-            if (i + 1 >= argc) die("'--baud' requires a value argument");
-            args.baud = parse_ulong(argv[++i], "--baud");
-        }
-        else if (argv[i][0] == '-')
-        {
-            fprintf(stderr, "error: unknown option '%s'\n", argv[i]);
-            exit(1);
-        }
-        else if (!args.command)
-        {
-            args.command = argv[i];
-        }
-        else if (!args.command_arg)
-        {
-            args.command_arg = argv[i];
-        }
         else
         {
             fprintf(stderr, "error: unexpected argument '%s'\n", argv[i]);
@@ -119,6 +134,5 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
         }
     }
 
-    if (!has_addr) die("--addr is required");
-    if (!args.command) die("a command is required");
+    if (!has_addr) die("address is required as the first argument");
 }

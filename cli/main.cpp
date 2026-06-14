@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <cstring>
 #include "args.h"
 #include "encoder.h"
 #include "dartt_map.h"
@@ -11,57 +10,71 @@ int main(int argc, char ** argv)
 {
     cli_args_t a;
     parse_args(argc, argv, a);
-	Serial ser;
-	ser.autoconnect(921600);
-	Encoder enc(a.addr, &ser);
-    if (strcmp(a.command, "read-angle")  == 0)
-	{
-		// printf("Placeholder: TODO read angle until ctl+c\n");
-		while(1)
-		{
-			int rc = enc.read_angle();
-			if(rc == 0)
-			{
-				printf("theta= %f\n", enc.theta);
-			}
-			else
-			{
-				printf("Error reading from encoder %d\n", rc);
-			}
 
-		}
-	}
-    if (strcmp(a.command, "read-adc")    == 0) 
-	{
-		printf("Placeholder: TODO read angle adc until ctl+c\n");
-	}
-    if (strcmp(a.command, "read-fds")    == 0)
-	{
-		printf("Placeholder: TODO read out fds angle\n");
-	}
-    if (strcmp(a.command, "set-zero")    == 0)
-	{
-		printf("Placeholder: zero out encoder\n");
-	}
-    if (strcmp(a.command, "calibrate")   == 0)
-	{
-		printf("Placeholder: calibrate encoder\n");
-	}
-    if (strcmp(a.command, "save-fds")    == 0)
-	{
-		printf("Placeholder: save filesystem\n");
-	}
-    if (strcmp(a.command, "restart")     == 0)
-	{
-		printf("Placeholder: restart\n");
-	}
-    if (strcmp(a.command, "bootload")    == 0) 
-	{
-		printf("Placeholder: enter bootlaoder\n");
-	}
-    if (strcmp(a.command, "set-address") == 0) 
-	{
-		printf("Placeholder: set regular address & save, enter bootloader and set bootloader address & save, then --start return\n");
-	}
-    return 1;
+    Serial ser;
+    if (a.port) ser.connect(a.port, a.baud);
+    else        ser.autoconnect(a.baud);
+
+    Encoder enc(a.addr, &ser);
+
+    if (a.read_angle)
+    {
+        while(1)
+        {
+            int rc = enc.read_angle();
+            if(rc == 0)
+            {
+                printf("theta= %f\n", enc.theta);
+            }
+            else
+            {
+                printf("Error reading from encoder %d\n", rc);
+            }
+        }
+    }
+    if (a.read_adc)
+    {
+        printf("Placeholder: TODO read adc until ctrl+c\n");
+    }
+    if (a.read_fds)
+    {
+        printf("Placeholder: TODO read out fds\n");
+    }
+    if (a.set_zero)
+    {
+        printf("Placeholder: zero out encoder\n");
+    }
+    if (a.calibrate)
+    {
+        printf("Placeholder: calibrate encoder\n");
+    }
+    if (a.save_fds)
+    {
+        printf("Placeholder: save filesystem\n");
+    }
+    if (a.restart)
+    {
+        printf("Placeholder: restart\n");
+    }
+    if (a.bootload)
+    {
+        printf("Placeholder: enter bootloader\n");
+    }
+    if (a.set_address)
+    {
+        printf("Placeholder: set regular address & save, enter bootloader and set bootloader address & save, then --bl-start\n");
+    }
+    if (a.flash)
+    {
+        printf("Placeholder: flash %s via bootloader\n", a.filename);
+    }
+    if (a.bl_version)
+    {
+        printf("Placeholder: get bootloader version\n");
+    }
+    if (a.bl_start)
+    {
+        printf("Placeholder: start application\n");
+    }
+    return 0;
 }
