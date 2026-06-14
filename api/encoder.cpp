@@ -70,6 +70,66 @@ Encoder::~Encoder()
 
 int Encoder::read_angle(void)
 {
+	Serial * ser = (Serial*)(ds.user_context_tx);
+	ds.tx_buf.len = 0;
+	ds.tx_buf.buf[ds.tx_buf.len++] = ds.address;
+	int rc = append_crc(&ds.tx_buf);
+	if(rc != DARTT_PROTOCOL_SUCCESS){return rc;}
+	cobs_buf_t cb_tx = {
+		.buf = ds.tx_buf.buf,
+		.size = ds.tx_buf.size,
+		.length = ds.tx_buf.len,
+		.encoded_state = COBS_DECODED
+	};
+	rc = cobs_encode_single_buffer(&cb_tx);
+	if(rc != DARTT_PROTOCOL_SUCCESS){return rc;}
+	ser->write(cb_tx.buf, cb_tx.length);
+
+	cobs_buf_t cb_enc =
+	{
+		.buf = ds.rx_buf.buf,
+		.size = UART_BUF_SIZE,
+		.length = 0
+	};
+
+	rc = ser->read_until_delimiter(cb_enc.buf, cb_enc.size, 0, ds.timeout_ms);
+	if (rc >= 0)
+	{
+		cb_enc.length = rc;
+	}
+	else if (rc == -2)
+	{
+		return -7;
+	}
+	else
+	{
+		return -1;
+	}
+	cobs_buf_t cb_dec =
+	{
+		.buf = ds.rx_buf.buf,
+		.size = ds.rx_buf.size,
+		.length = 0
+	};
+	rc = cobs_decode_double_buffer(&cb_enc, &cb_dec);
+	ds.rx_buf.len = cb_dec.length;
+	if(rc != COBS_SUCCESS)
+	{
+		return rc;
+	}
+	if(cb_dec.buf[0] != MASTER_MOTOR_ADDRESS)
+	{
+		printf("addr mismatch\n");
+	}
+	int32_t angle = 0;
+	angle |= (int32_t)(cb_dec.buf[1]);
+	angle |= ((int32_t)(cb_dec.buf[2])) << 8;
+	dp_periph.angle = angle;
+	return 0;
+}
+
+int Encoder::read_angle_misc(void)
+{
 	int rc = dartt_read_multi(&angle_slice, &ds);
 	if(rc != DARTT_PROTOCOL_SUCCESS)
 	{

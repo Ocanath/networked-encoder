@@ -23,7 +23,8 @@ public:
 
 	float theta;	//radians
 
-	int read_angle(void);
+	int read_angle_misc(void);
+	int read_angle(void);	//motor message
 	int read_adc_raw(void);
 	int read_time_data(void);
 	int write_fds(void);		//write full flash data store (calibration + address + baud + offset)

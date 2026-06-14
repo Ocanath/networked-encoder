@@ -25,7 +25,8 @@ int main(int argc, char ** argv)
     {
         while(1)
         {
-            int rc = enc.read_angle();
+            int rc = enc.read_angle_misc();
+			// int rc = enc.read_angle();
             if(rc == 0)
             {
                 printf("theta= %f\n", enc.theta);
