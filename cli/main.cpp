@@ -11,10 +11,25 @@ int main(int argc, char ** argv)
 {
     cli_args_t a;
     parse_args(argc, argv, a);
-
+	Serial ser;
+	ser.autoconnect(921600);
+	Encoder enc(a.addr, &ser);
     if (strcmp(a.command, "read-angle")  == 0)
 	{
-		printf("Placeholder: TODO read angle until ctl+c\n");
+		// printf("Placeholder: TODO read angle until ctl+c\n");
+		while(1)
+		{
+			int rc = enc.read_angle();
+			if(rc == 0)
+			{
+				printf("theta= %f\n", enc.theta);
+			}
+			else
+			{
+				printf("Error reading from encoder %d\n", rc);
+			}
+
+		}
 	}
     if (strcmp(a.command, "read-adc")    == 0) 
 	{
