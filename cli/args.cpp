@@ -24,6 +24,8 @@ static void print_help(const char * prog)
         "  --restart           Restart encoder firmware\n"
         "  --bootload          Enter bootloader mode\n"
         "  --set-address <n>   Change DARTT address (encoder + bootloader)\n"
+        "  --current-bootloader-address <n>\n"
+        "                      Current bootloader address if it differs from addr\n"
         "\n"
         "Bootloader commands:\n"
         "  --flash <file>      Flash firmware binary via bootloader\n"
