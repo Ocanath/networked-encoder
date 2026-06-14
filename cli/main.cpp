@@ -1,6 +1,10 @@
 #include <iostream>
 #include <string>
+#include <signal.h>
 #include "args.h"
+
+static volatile sig_atomic_t g_stop = 0;
+static void on_sigint(int) { g_stop = 1; }
 #include "encoder.h"
 #include "dartt_map.h"
 #include "dartt_flasher.h"
@@ -57,12 +61,12 @@ int main(int argc, char ** argv)
     }
     if (a.calibrate)
     {
-        // printf("Placeholder: calibrate encoder\n");
+		signal(SIGINT, on_sigint);
 		int32_t sinmin = 1<<14;
 		int32_t sinmax = 0;
 		int32_t cosmin = 1 << 14;
 		int32_t cosmax = 0;
-		while(1)
+		while(!g_stop)
 		{
 			int rc = enc.read_adc_raw();
 			if(rc != 0)
@@ -89,6 +93,15 @@ int main(int argc, char ** argv)
 			}
 			printf("min = [%d, %d], max = [%d, %d]\n", cosmin, sinmin, cosmax, sinmax);
 		}
+		printf("\nFinal: cos=[%d, %d] sin=[%d, %d]\n", cosmin, cosmax, sinmin, sinmax);
+		enc.dp_ctl.fds.cos_min = cosmin;
+		enc.dp_ctl.fds.cos_max = cosmax;
+		enc.dp_ctl.fds.sin_min = sinmin;
+		enc.dp_ctl.fds.sin_max = sinmax;
+		int rc = enc.write_fds();
+		if(rc != 0) printf("write_fds failed: %d\n", rc);
+		rc = enc.write_action_flag(FS_SAVE);
+		if(rc != 0) printf("FS_SAVE failed: %d\n", rc);
     }
     if (a.save_fds)
     {
