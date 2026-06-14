@@ -125,6 +125,8 @@ int Encoder::read_angle(void)
 	angle |= (int32_t)(cb_dec.buf[1]);
 	angle |= ((int32_t)(cb_dec.buf[2])) << 8;
 	dp_periph.angle = angle;
+
+	theta = ((float)dp_periph.angle) / ((float)(1 << 14));
 	return 0;
 }
 
