@@ -122,21 +122,47 @@ int main(int argc, char ** argv)
     if (a.set_address)
     {
         printf("Placeholder: set address to %d\n", a.new_address);
-		if(a.has_bootloader_addr)
+
+		enc.dp_ctl.fds.address = a.new_address;
+		dartt_mem_t addr = {
+			.buf = (unsigned char *)(&enc.dp_ctl.fds.address),
+			.size = sizeof(enc.dp_ctl.fds.address)
+		};
+		int rc = dartt_write_multi(&addr, &enc.ds);
+		if(rc != 0 ){printf("address update failed: %d\n", rc);}
+		//TODO: add write action to update flash HERE but don't do it yet to avoid brickage
+		rc = enc.write_action_flag(FS_SAVE);
+		if(rc != 0 ){printf("settings save failed code: %d\n", rc);}
+
+		//set long timeout and read back address to confirm
+		enc.ds.timeout_ms = 1000;
+		rc = dartt_read_multi(&addr, &enc.ds);
+		if(rc != 0){printf("Readback post save failed: %d\n", rc);}
+		if(enc.dp_periph.fds.address != a.new_address)
 		{
-			printf("Using bootloader address: %d\n", a.bootloader_addr);
+			printf("Failed to write - readback mismatch. desired %d, actual %d\n", a.new_address, enc.dp_periph.fds.address);
 		}
-		// enc.dp_ctl.fds.address = a.new_address;
-		// dartt_mem_t addr = {
-		// 	.buf = (unsigned char *)(&enc.dp_ctl.fds.address),
-		// 	.size = sizeof(enc.dp_ctl.fds.address)
-		// };
-		// int rc = dartt_write_multi(&addr, &enc.ds);
-		// if(rc != 0 ){printf("address update failed: %d\n", rc);}
-		// rc = enc.write_action_flag(BOOTLOAD);
-		// if(rc != 0 ){printf("bootload update failed: %d\n", rc);}
+		else
+		{
+			printf("Readback match\n");
+		}
+		
+		rc = enc.write_action_flag(BOOTLOAD);
+		if(rc != 0 ){printf("bootload update failed: %d\n", rc);}
 
-
+		DarttFlasher flasher(a.bootloader_addr, &ser);
+		rc = flasher.poll_action_flags(500);
+		if(rc < 0)
+		{
+			printf("Failed to get action flag: %d\n", rc);
+			return rc;
+		}
+		else{printf("bootloader ready, writing address\n");}
+		rc = flasher.update_target_address(a.new_address);
+		if(rc != 0) {printf("Failed to update bootloader address. Code %d\n", rc);}
+		rc = flasher.start_app();
+		if(rc != 0) {printf("Failed to start app, code %d\n", rc);}
+		printf("Done\n");
     }
     if (a.flash)
     {
