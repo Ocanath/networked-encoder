@@ -35,17 +35,17 @@ int main(int argc, char ** argv)
     if (a.read_adc)
     {
         while(1)
-	{
-		int rc = enc.read_adc_raw();
-		if(rc == 0)
 		{
-			printf("[%d %d]\n", enc.dp_periph.dma_adc_raw[0], enc.dp_periph.dma_adc_raw[1]);
+			int rc = enc.read_adc_raw();
+			if(rc == 0)
+			{
+				printf("[%d %d]\n", enc.dp_periph.dma_adc_raw[0], enc.dp_periph.dma_adc_raw[1]);
+			}
+			else
+			{
+				printf("Error reading %d\n", rc);
+			}
 		}
-		else
-		{
-			printf("Error reading %d\n", rc);
-		}
-	}
     }
     if (a.read_fds)
     {
@@ -57,7 +57,38 @@ int main(int argc, char ** argv)
     }
     if (a.calibrate)
     {
-        printf("Placeholder: calibrate encoder\n");
+        // printf("Placeholder: calibrate encoder\n");
+		int32_t sinmin = 1<<14;
+		int32_t sinmax = 0;
+		int32_t cosmin = 1 << 14;
+		int32_t cosmax = 0;
+		while(1)
+		{
+			int rc = enc.read_adc_raw();
+			if(rc != 0)
+			{
+				printf("Error reading %d\n", rc);
+			}
+			int32_t c = enc.dp_periph.dma_adc_raw[0];
+			int32_t s = enc.dp_periph.dma_adc_raw[1];
+			if(c < cosmin)
+			{
+				cosmin = c;
+			}
+			if(c > cosmax)
+			{
+				cosmax = c;
+			}
+			if(s < sinmin)
+			{
+				sinmin = s;
+			}
+			if(s > sinmax)
+			{
+				sinmax = s;
+			}
+			printf("min = [%d, %d], max = [%d, %d]\n", cosmin, sinmin, cosmax, sinmax);
+		}
     }
     if (a.save_fds)
     {
