@@ -98,22 +98,26 @@ int main(int argc, char ** argv)
 		enc.dp_ctl.fds.cos_max = cosmax;
 		enc.dp_ctl.fds.sin_min = sinmin;
 		enc.dp_ctl.fds.sin_max = sinmax;
-		int rc = enc.write_fds();
+		dartt_mem_t sincos_minmax = {
+			.buf = (unsigned char *)(&enc.dp_ctl.fds.sin_min),
+			.size = 4*sizeof(uint32_t)
+		};
+		int rc = dartt_write_multi(&sincos_minmax, &enc.ds);
+		// int rc = enc.write_fds();
 		if(rc != 0) printf("write_fds failed: %d\n", rc);
 		rc = enc.write_action_flag(FS_SAVE);
 		if(rc != 0) printf("FS_SAVE failed: %d\n", rc);
     }
-    if (a.save_fds)
-    {
-        printf("Placeholder: save filesystem\n");
-    }
     if (a.restart)
     {
-        printf("Placeholder: restart\n");
+		int	rc = enc.write_action_flag(RESTART);
+		if(rc != 0) printf("RESTART failed: %d\n", rc);
+
     }
     if (a.bootload)
     {
-        printf("Placeholder: enter bootloader\n");
+		int	rc = enc.write_action_flag(BOOTLOAD);
+		if(rc != 0) printf("BOOTLOAD failed: %d\n", rc);
     }
     if (a.set_address)
     {
