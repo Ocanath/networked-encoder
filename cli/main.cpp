@@ -34,7 +34,18 @@ int main(int argc, char ** argv)
     }
     if (a.read_adc)
     {
-        printf("Placeholder: TODO read adc until ctrl+c\n");
+        while(1)
+	{
+		int rc = enc.read_adc_raw();
+		if(rc == 0)
+		{
+			printf("[%d %d]\n", enc.dp_periph.dma_adc_raw[0], enc.dp_periph.dma_adc_raw[1]);
+		}
+		else
+		{
+			printf("Error reading %d\n", rc);
+		}
+	}
     }
     if (a.read_fds)
     {
