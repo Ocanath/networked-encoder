@@ -121,12 +121,8 @@ int Encoder::read_angle(void)
 	{
 		printf("addr mismatch\n");
 	}
-	int32_t angle = 0;
-	angle |= (int32_t)(cb_dec.buf[1]);
-	angle |= ((int32_t)(cb_dec.buf[2])) << 8;
-	dp_periph.angle = angle;
-
-	theta = ((float)dp_periph.angle) / ((float)(1 << 14));
+	uint16_t raw = (uint16_t)cb_dec.buf[1] | ((uint16_t)cb_dec.buf[2] << 8);
+	theta = ((float)(int16_t)raw) / ((float)(1 << 13));
 	return 0;
 }
 
