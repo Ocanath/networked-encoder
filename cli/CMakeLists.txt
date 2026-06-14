@@ -19,9 +19,9 @@ if(NOT TARGET dartt_flasher_lib)
     )
 endif()
 
-add_executable(encoder_cli main.cpp args.cpp)
+add_executable(encoder-cli main.cpp args.cpp)
 
-target_link_libraries(encoder_cli PRIVATE
+target_link_libraries(encoder-cli PRIVATE
     encoder_controller
     dartt_flasher_lib
 )

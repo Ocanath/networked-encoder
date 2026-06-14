@@ -22,7 +22,9 @@ typedef struct {
     bool restart;
     bool bootload;
     bool set_address;
+	bool has_bootloader_addr;
     unsigned char new_address;
+    unsigned char bootloader_addr;      /* --current-bootloader-address, defaults to addr */
 
     /* bootloader commands */
     bool flash;

@@ -65,6 +65,7 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
     args.baud = 921600;
 
     bool has_addr = false;
+    args.has_bootloader_addr = false;
 
     for (int i = 1; i < argc; i++)
     {
@@ -97,13 +98,17 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
         {
             if (i + 1 >= argc) die("'--set-address' requires an address argument");
             unsigned long v = parse_ulong(argv[++i], "--set-address");
-            if (v > 255)
-            {
-                fprintf(stderr, "error: address '%s' out of range (0-255)\n", argv[i]);
-                exit(1);
-            }
+            if (v > 255) { fprintf(stderr, "error: address '%s' out of range (0-255)\n", argv[i]); exit(1); }
             args.new_address = (unsigned char)v;
             args.set_address = true;
+        }
+        else if (strcmp(argv[i], "--current-bootloader-address") == 0)
+        {
+            if (i + 1 >= argc) die("'--current-bootloader-address' requires an address argument");
+            unsigned long v = parse_ulong(argv[++i], "--current-bootloader-address");
+            if (v > 255) { fprintf(stderr, "error: address '%s' out of range (0-255)\n", argv[i]); exit(1); }
+            args.bootloader_addr = (unsigned char)v;
+            args.has_bootloader_addr = true;
         }
         else if (strcmp(argv[i], "--flash") == 0)
         {
@@ -135,4 +140,5 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
     }
 
     if (!has_addr) die("address is required as the first argument");
+    if (!args.has_bootloader_addr){ args.bootloader_addr = args.addr;}
 }

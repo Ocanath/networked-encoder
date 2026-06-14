@@ -121,7 +121,22 @@ int main(int argc, char ** argv)
     }
     if (a.set_address)
     {
-        printf("Placeholder: set regular address & save, enter bootloader and set bootloader address & save, then --bl-start\n");
+        printf("Placeholder: set address to %d\n", a.new_address);
+		if(a.has_bootloader_addr)
+		{
+			printf("Using bootloader address: %d\n", a.bootloader_addr);
+		}
+		// enc.dp_ctl.fds.address = a.new_address;
+		// dartt_mem_t addr = {
+		// 	.buf = (unsigned char *)(&enc.dp_ctl.fds.address),
+		// 	.size = sizeof(enc.dp_ctl.fds.address)
+		// };
+		// int rc = dartt_write_multi(&addr, &enc.ds);
+		// if(rc != 0 ){printf("address update failed: %d\n", rc);}
+		// rc = enc.write_action_flag(BOOTLOAD);
+		// if(rc != 0 ){printf("bootload update failed: %d\n", rc);}
+
+
     }
     if (a.flash)
     {
