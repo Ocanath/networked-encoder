@@ -4,3 +4,12 @@
 [submodule "network-encoder-firmware/bootloader/dartt_bootloader"]
 	path = network-encoder-firmware/encoder-bootloader/dartt_bootloader
 	url = https://github.com/ocanath/dartt_bootloader
+[submodule "api/external/dartt-protocol"]
+	path = api/external/dartt-protocol
+	url = https://github.com/ocanath/dartt-protocol
+[submodule "api/external/byte-stuffing"]
+	path = api/external/byte-stuffing
+	url = https://github.com/ocanath/byte-stuffing
+[submodule "api/external/serial-cross-platform"]
+	path = api/external/serial-cross-platform
+	url = https://github.com/ocanath/serial-cross-platform

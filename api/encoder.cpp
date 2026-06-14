@@ -28,9 +28,9 @@ Encoder::Encoder(unsigned char addr, Serial * ser)
 	ds.rx_buf.buf = rx_buf_mem;
 	ds.rx_buf.size = UART_BUF_SIZE - NUM_BYTES_COBS_OVERHEAD;
 	ds.rx_buf.len = 0;
-	ds.blocking_tx_callback = &dartt_encoder::tx_blocking;
+	ds.blocking_tx_callback = &network_encoder::tx_blocking;
 	ds.user_context_tx = (void*)(ser);
-	ds.blocking_rx_callback = &dartt_encoder::rx_blocking;
+	ds.blocking_rx_callback = &network_encoder::rx_blocking;
 	ds.user_context_rx = (void*)(ser);
 	ds.timeout_ms = 10;
 

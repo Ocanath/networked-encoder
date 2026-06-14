@@ -9,11 +9,15 @@ add_library(encoder_controller STATIC
 )
 
 if(NOT TARGET dartt_protocol)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../network-encoder-firmware/encoder-rs485/external/dartt-protocol)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/dartt-protocol)
 endif()
 
 if(NOT TARGET cobs)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../network-encoder-firmware/encoder-rs485/external/stm32-dma-cobs-uart/byte-stuffing)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/byte-stuffing)
+endif()
+
+if(NOT TARGET serial)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/serial-cross-platform)
 endif()
 
 target_include_directories(encoder_controller PUBLIC
