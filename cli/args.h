@@ -14,6 +14,7 @@ typedef struct {
 
     /* encoder commands */
     bool read_angle;
+    bool read_angle_misc;
     bool read_adc;
     bool read_fds;
     bool set_zero;

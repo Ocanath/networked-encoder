@@ -15,7 +15,8 @@ static void print_help(const char * prog)
         "  --baud <rate>       Baud rate (default 921600)\n"
         "\n"
         "Encoder commands:\n"
-        "  --read-angle        Print angle in radians\n"
+        "  --read-angle        Print angle (motor address protocol, q13)\n"
+        "  --read-angle-misc   Print angle (DARTT misc register, q14)\n"
         "  --read-adc          Print raw sin/cos ADC values\n"
         "  --read-fds          Print flash data store contents\n"
         "  --set-zero          Set current position as zero\n"
@@ -86,7 +87,8 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
             if (i + 1 >= argc) die("'--baud' requires a value argument");
             args.baud = parse_ulong(argv[++i], "--baud");
         }
-        else if (strcmp(argv[i], "--read-angle") == 0)  { args.read_angle = true; }
+        else if (strcmp(argv[i], "--read-angle") == 0)       { args.read_angle      = true; }
+        else if (strcmp(argv[i], "--read-angle-misc") == 0)  { args.read_angle_misc = true; }
         else if (strcmp(argv[i], "--read-adc")   == 0)  { args.read_adc   = true; }
         else if (strcmp(argv[i], "--read-fds")   == 0)  { args.read_fds   = true; }
         else if (strcmp(argv[i], "--set-zero")   == 0)  { args.set_zero   = true; }

@@ -37,6 +37,21 @@ int main(int argc, char ** argv)
             }
         }
     }
+    if (a.read_angle_misc)
+    {
+        while(1)
+        {
+            int rc = enc.read_angle_misc();
+            if(rc == 0)
+            {
+                printf("theta= %f\n", enc.theta);
+            }
+            else
+            {
+                printf("Error reading from encoder %d\n", rc);
+            }
+        }
+    }
     if (a.read_adc)
     {
         while(1)
