@@ -19,7 +19,17 @@ if(NOT TARGET dartt_flasher_lib)
     )
 endif()
 
+set(DARTT_BL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../network-encoder-firmware/encoder-bootloader/dartt_bootloader)
+
+add_custom_target(generate_version ALL
+    COMMAND ruby ${DARTT_BL_DIR}/scripts/run_get_version.rb
+    WORKING_DIRECTORY ${DARTT_BL_DIR}/scripts
+    COMMENT "Generating version.h"
+)
+
 add_executable(encoder-cli main.cpp args.cpp)
+
+add_dependencies(encoder-cli generate_version)
 
 target_link_libraries(encoder-cli PRIVATE
     encoder_controller
