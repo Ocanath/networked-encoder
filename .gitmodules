@@ -1,8 +1,8 @@
 [submodule "firmware/encoder-rs485"]
-	path = network-encoder-firmware/encoder-rs485
+	path = embedded/encoder-rs485
 	url = https://github.com/Ocanath/encoder-rs485
-[submodule "network-encoder-firmware/bootloader/dartt_bootloader"]
-	path = network-encoder-firmware/encoder-bootloader/dartt_bootloader
+[submodule "embedded/bootloader/dartt_bootloader"]
+	path = embedded/encoder-bootloader/dartt_bootloader
 	url = https://github.com/ocanath/dartt_bootloader
 [submodule "api/external/dartt-protocol"]
 	path = api/external/dartt-protocol

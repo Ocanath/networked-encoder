@@ -22,7 +22,7 @@ endif()
 
 target_include_directories(encoder_controller PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../network-encoder-firmware/encoder-rs485/Core/Inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../embedded/encoder-rs485/Core/Inc
 )
 
 target_link_libraries(encoder_controller PUBLIC

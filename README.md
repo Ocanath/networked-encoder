@@ -15,8 +15,8 @@ Addresses are assigned per-device and persisted to flash. The bootloader (also D
 
 | Path | Contents |
 |---|---|
-| `network-encoder-firmware/encoder-rs485` | STM32G031 encoder application firmware |
-| `network-encoder-firmware/encoder-bootloader` | DARTT-based RS-485 bootloader |
+| `embedded/encoder-rs485` | STM32G031 encoder application firmware |
+| `embedded/encoder-bootloader` | DARTT-based RS-485 bootloader |
 | `api/` | Host-side C++ encoder controller library |
 | `cli/` | Command-line tool for calibration, addressing, and flashing |
 | `scripts/` | Helper scripts for first-time device setup and firmware updates |
