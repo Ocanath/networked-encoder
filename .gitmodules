@@ -1,4 +1,4 @@
-[submodule "firmware/encoder-rs485"]
+[submodule "encoder-rs485"]
 	path = embedded/encoder-rs485
 	url = https://github.com/Ocanath/encoder-rs485
 [submodule "embedded/bootloader/dartt_bootloader"]
