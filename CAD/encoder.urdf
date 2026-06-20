@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot name="encoder">
+
+  <link name="stator">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/stator-coarse.STL"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/stator-coarse.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="rotor">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/rotor-coarse.STL"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/rotor-coarse.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="encoder_joint" type="continuous">
+    <parent link="stator"/>
+    <child link="rotor"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+</robot>
