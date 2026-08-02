@@ -32,6 +32,7 @@ typedef struct {
     const char * filename;
     bool bl_version;
     bool bl_start;
+	bool scan;
 } cli_args_t;
 
 void parse_args(int argc, char ** argv, cli_args_t & args);

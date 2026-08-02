@@ -192,5 +192,17 @@ int main(int argc, char ** argv)
     {
         printf("Placeholder: start application\n");
     }
+	if(a.scan)
+	{
+		for(uint8_t s_addr = 0; s_addr < 255; s_addr++)
+		{
+			Encoder scan_enc(s_addr, &ser);	
+			int s_rc = scan_enc.read_adc_raw();
+			if(s_rc == 0)
+			{
+				printf("Found encoder %d\n", s_addr);
+			}
+		}
+	}
     return 0;
 }

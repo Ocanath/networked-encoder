@@ -96,6 +96,7 @@ void parse_args(int argc, char ** argv, cli_args_t & args)
         else if (strcmp(argv[i], "--save-fds")   == 0)  { args.save_fds   = true; }
         else if (strcmp(argv[i], "--restart")    == 0)  { args.restart    = true; }
         else if (strcmp(argv[i], "--bootload")   == 0)  { args.bootload   = true; }
+		else if (strcmp(argv[i], "--scan") 		 == 0)	{ args.scan		  = true; }
         else if (strcmp(argv[i], "--bl-version") == 0)  { args.bl_version = true; }
         else if (strcmp(argv[i], "--bl-start")   == 0)  { args.bl_start   = true; }
         else if (strcmp(argv[i], "--set-address") == 0)
