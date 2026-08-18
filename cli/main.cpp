@@ -194,13 +194,13 @@ int main(int argc, char ** argv)
     }
 	if(a.scan)
 	{
-		for(uint8_t s_addr = 0; s_addr < 255; s_addr++)
+		for(uint8_t scan_addr = 0; scan_addr < 255; scan_addr++)
 		{
-			Encoder scan_enc(s_addr, &ser);	
+			Encoder scan_enc(scan_addr, &ser);
 			int s_rc = scan_enc.read_adc_raw();
 			if(s_rc == 0)
 			{
-				printf("Found encoder %d\n", s_addr);
+				printf("Found encoder %d\n", scan_addr);
 			}
 		}
 	}
