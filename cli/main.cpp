@@ -73,7 +73,43 @@ int main(int argc, char ** argv)
     }
     if (a.set_zero)
     {
-        printf("Placeholder: zero out encoder\n");
+        printf("Zero out encoder\n");
+		float avg = 0;
+		int nsamples = 0;
+		int rc = 0;
+		for(int ang_sample = 0; ang_sample < 1000; ang_sample++)
+		{
+			rc = enc.read_angle_misc();
+			if(rc == 0)
+			{
+				avg += enc.dp_periph.angle;
+				nsamples++;
+			}
+		}
+		avg = avg / (float)nsamples;
+		printf("avg = %f\n", avg);
+
+		dartt_mem_t offset_slice ={.buf = (unsigned char *)&enc.dp_ctl.fds.offset,
+			.size = sizeof(enc.dp_ctl.fds.offset)
+		};
+		rc = dartt_read_multi(&offset_slice, &enc.ds);
+		if(rc != 0) 
+		{
+			printf("issue reading offset, abort\n");
+			return -1;
+		}
+		printf("offset is equal to %d\n",enc.dp_periph.fds.offset);
+		float offset = (float)enc.dp_periph.fds.offset;
+		float raw = avg + offset;
+		enc.dp_ctl.fds.offset = (int32_t)raw;
+
+		rc = dartt_write_multi(&offset_slice, &enc.ds);
+		printf("Wrote %d as offset\n", enc.dp_ctl.fds.offset);
+		rc = enc.write_action_flag(FS_SAVE);
+		if(rc != 0) {printf("FS_SAVE failed: %d\n", rc);}
+		else{printf("Updated filesystem successfully\n");}
+
+
     }
     if (a.calibrate)
     {
